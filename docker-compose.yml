@@ -1,0 +1,7 @@
+services:
+  caja-negra-devops:
+    build: .
+    container_name: contenedor_caja_negra_devops
+    ports:
+      - "5000:5000"
+    restart: always
