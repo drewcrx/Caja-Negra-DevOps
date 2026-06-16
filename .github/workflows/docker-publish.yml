@@ -41,6 +41,11 @@ jobs:
           echo "Usuario: ${{ secrets.VPS_USER }}"
           echo "Puerto: ${{ secrets.VPS_SSH_PORT }}"
 
+      - name: Verificar puerto SSH desde GitHub Actions
+        run: |
+          echo "Probando puerto SSH..."
+          nc -vz -w 15 ${{ secrets.VPS_HOST }} ${{ secrets.VPS_SSH_PORT }}
+
       - name: Probar conexión SSH
         uses: appleboy/ssh-action@v1
         with:
