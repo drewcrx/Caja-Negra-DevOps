@@ -51,3 +51,13 @@ jobs:
           script: |
             echo "Conexión exitosa"
             touch quintoa.txt
+
+      - name: Pasar archivos desde git al VPS
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.VPS_PASSWORD }}
+          port: ${{ secrets.VPS_SSH_PORT }}
+          source: "stack.yml,Makefile"
+          target: "/home/${{ secrets.VPS_USER }}/landinga"
