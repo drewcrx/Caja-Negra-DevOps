@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  caja-negra-devops:
+  app:
     image: ghcr.io/drewcrx/caja-negra-devops:1.0.0
     networks:
       - traefik-public
@@ -22,8 +22,8 @@ services:
         - "traefik.http.routers.caja-negra-devops-secure.rule=Host(`caja-negra-devops.byronrm.com`)"
         - "traefik.http.routers.caja-negra-devops-secure.tls=true"
         - "traefik.http.routers.caja-negra-devops-secure.tls.certresolver=http"
-        - "traefik.http.routers.caja-negra-devops-secure.service=caja-negra-devops"
-        - "traefik.http.services.caja-negra-devops.loadbalancer.server.port=5000"
+        - "traefik.http.routers.caja-negra-devops-secure.service=app"
+        - "traefik.http.services.app.loadbalancer.server.port=5000"
         - "traefik.docker.network=traefik-public"
 
 networks:
