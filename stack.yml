@@ -1,1 +1,32 @@
-version: "3.9"
+yml
+version: '3.8'
+
+services:
+  caja-negra-devops:
+    image: ghcr.io/drewcrx/caja-negra-devops:1.0.0
+    networks:
+      - traefik-public
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.caja-negra-devops.entrypoints=http"
+        - "traefik.http.routers.caja-negra-devops.rule=Host(`caja-negra-devops.byronrm.com`)"
+        - "traefik.http.middlewares.caja-negra-devops-https-redirect.redirectscheme.scheme=https"
+        - "traefik.http.routers.caja-negra-devops.middlewares=caja-negra-devops-https-redirect"
+        - "traefik.http.routers.caja-negra-devops-secure.entrypoints=https"
+        - "traefik.http.routers.caja-negra-devops-secure.rule=Host(`caja-negra-devops.byronrm.com`)"
+        - "traefik.http.routers.caja-negra-devops-secure.tls=true"
+        - "traefik.http.routers.caja-negra-devops-secure.tls.certresolver=http"
+        - "traefik.http.routers.caja-negra-devops-secure.service=caja-negra-devops"
+        - "traefik.http.services.caja-negra-devops.loadbalancer.server.port=5000"
+        - "traefik.docker.network=traefik-public"
+
+networks:
+  traefik-public:
+    external: true
